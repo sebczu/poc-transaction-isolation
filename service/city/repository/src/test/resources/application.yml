@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      javax:
+        cache:
+          use_second_level_cache: false
+          use_query_cache: false

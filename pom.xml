@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.sebczu.poc.transaction</groupId>
+  <artifactId>poc-transaction</artifactId>
+  <version>${revision}${changelist}${sha1}</version>
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>com.sebczu</groupId>
+    <artifactId>versioning</artifactId>
+    <version>1.0.2</version>
+  </parent>
+
+  <properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+
+    <revision>0.0.1</revision>
+    <changelist/>
+    <sha1>-SNAPSHOT</sha1>
+  </properties>
+
+  <modules>
+    <module>service</module>
+  </modules>
+
+</project>

@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>application</artifactId>
+
+  <parent>
+    <groupId>com.sebczu.poc.transaction</groupId>
+    <artifactId>parent</artifactId>
+    <version>${revision}${changelist}${sha1}</version>
+    <relativePath>../parent</relativePath>
+  </parent>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring.boot.dependencies.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <!--INTERNAL-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.sebczu.poc.transaction</groupId>
+      <artifactId>city-repository</artifactId>
+    </dependency>
+    <!--EXTERNAL-->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+  </dependencies>
+
+</project>

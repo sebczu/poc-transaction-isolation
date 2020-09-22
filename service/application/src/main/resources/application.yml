@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: poc-transaction
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: admin
+    password: test
+  jpa:
+    properties:
+      javax:
+        persistence:
+          sharedCache:
+#            not necessary ??
+            mode: NONE
+        cache:
+          use_second_level_cache: false
+          use_query_cache: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        includ: "*"

@@ -1,0 +1,1 @@
+INSERT INTO city (name, population) VALUES ('Cracow', 2000);
