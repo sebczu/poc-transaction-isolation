@@ -1,17 +1,17 @@
 package com.sebczu.poc.transaction.city.repository;
 
-import lombok.extern.slf4j.Slf4j;
+import com.sebczu.poc.transaction.city.repository.factory.CityFactory;
+import com.sebczu.poc.transaction.city.repository.service.BasicCityService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
-@Slf4j
 class BasicTransactionCityRepositoryTest extends CityRepositoryTest {
 
     @Autowired
-    private CityService service;
+    private BasicCityService service;
 
     @Test
     void simpleTransaction() {
