@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BasicCityService {
 
+    public static final int POPULATION_TO_ADD = 1;
     private final CityRepository repository;
 
     @Transactional

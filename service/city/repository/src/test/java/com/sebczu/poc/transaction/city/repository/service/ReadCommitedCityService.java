@@ -2,9 +2,7 @@ package com.sebczu.poc.transaction.city.repository.service;
 
 import com.sebczu.poc.transaction.city.repository.CityRepository;
 import com.sebczu.poc.transaction.city.repository.entity.CityEntity;
-import com.sebczu.poc.transaction.city.repository.factory.CityFactory;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -12,18 +10,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import static com.sebczu.poc.transaction.city.repository.service.BasicCityService.POPULATION_TO_ADD;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ReadCommitedCityService {
 
-    private static final int POPULATION_TO_ADD = 100;
     private final CityRepository repository;
     private final EntityManager entityManager;
+    private final ModifierCityService modifierService;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public CityEntity wait_readAndAddPopulation(int id) {
-        sleep();
+        modifierService.addPopulation(id);
 
         CityEntity city = repository.getOne(id);
         log.info("readCommited population: " + city.getPopulation());
@@ -37,7 +37,7 @@ public class ReadCommitedCityService {
         Integer population = city.getPopulation();
         log.info("readCommited population: " + population);
 
-        sleep();
+        modifierService.addPopulation(id);
 
         city.setPopulation(population + POPULATION_TO_ADD);
         return repository.save(city);
@@ -48,7 +48,7 @@ public class ReadCommitedCityService {
         CityEntity city = repository.getOne(id);
         log.info("readCommited population: " + city.getPopulation());
 
-        sleep();
+        modifierService.addPopulation(id);
 
         city = repository.getOne(id);
         log.info("readCommited population: " + city.getPopulation());
@@ -61,7 +61,7 @@ public class ReadCommitedCityService {
         CityEntity city = repository.getOne(id);
         log.info("readCommited population: " + city.getPopulation());
 
-        sleep();
+        modifierService.addPopulation(id);
 
         entityManager.clear();
         city = repository.getOne(id);
@@ -71,28 +71,24 @@ public class ReadCommitedCityService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void wait_readCities() {
-        sleep();
+    public Integer wait_readCities() {
+        modifierService.addCity();
 
         int size = repository.findAllByName("Cracow").size();
         log.info("readCommited citites: " + size);
+        return size;
     }
 
-    @Transactional
-    public CityEntity addPopulation(int id) {
-        CityEntity city = repository.getOne(id);
-        city.setPopulation(city.getPopulation() + POPULATION_TO_ADD);
-        return repository.save(city);
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Integer readCities_wait_readCities() {
+        int size = repository.findAllByName("Cracow").size();
+        log.info("readCommited citites: " + size);
+
+        modifierService.addCity();
+
+        size = repository.findAllByName("Cracow").size();
+        log.info("readCommited citites: " + size);
+        return size;
     }
 
-    @Transactional
-    public void addCity() {
-        repository.save(CityFactory.create(2));
-    }
-
-    @SneakyThrows
-    private void sleep() {
-        log.info("wait");
-        Thread.sleep(2000);
-    }
 }
