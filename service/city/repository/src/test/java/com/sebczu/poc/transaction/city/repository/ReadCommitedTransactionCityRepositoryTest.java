@@ -95,4 +95,21 @@ class ReadCommitedTransactionCityRepositoryTest extends CityRepositoryTest {
                 .element(0)
                 .extracting(CityEntity::getPopulation).isEqualTo(2200);
     }
+
+    // T1 ---(startTransaction)----------------------------(readCities)---(endTransaction)
+    // T2 ---(startTransaction)---(addCity)---(saveInDB)
+    @Test
+    @DisplayName("TransactionReadCommited(start transaction) -> SecondTransaction(add city) -> TransactionReadCommited(read commited city)")
+    void startTransaction_addCity_readCities() throws ExecutionException, InterruptedException {
+        repository.save(CityFactory.create());
+
+        CompletableFuture<Void> readCommited = CompletableFuture.runAsync(() -> service.wait_readCities());
+        CompletableFuture<Void> addCity = CompletableFuture.runAsync(() -> service.addCity());
+
+        readCommited.get();
+        addCity.get();
+
+        assertThat(repository.findAll())
+                .hasSize(2);
+    }
 }

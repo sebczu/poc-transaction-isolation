@@ -2,6 +2,7 @@ package com.sebczu.poc.transaction.city.repository.service;
 
 import com.sebczu.poc.transaction.city.repository.CityRepository;
 import com.sebczu.poc.transaction.city.repository.entity.CityEntity;
+import com.sebczu.poc.transaction.city.repository.factory.CityFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -69,11 +70,24 @@ public class ReadCommitedCityService {
         return repository.save(city);
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void wait_readCities() {
+        sleep();
+
+        int size = repository.findAllByName("Cracow").size();
+        log.info("readCommited citites: " + size);
+    }
+
     @Transactional
     public CityEntity addPopulation(int id) {
         CityEntity city = repository.getOne(id);
         city.setPopulation(city.getPopulation() + POPULATION_TO_ADD);
         return repository.save(city);
+    }
+
+    @Transactional
+    public void addCity() {
+        repository.save(CityFactory.create(2));
     }
 
     @SneakyThrows

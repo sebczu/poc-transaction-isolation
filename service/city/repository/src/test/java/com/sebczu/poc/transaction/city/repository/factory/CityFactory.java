@@ -14,4 +14,8 @@ public class CityFactory {
     public static CityEntity create(String name) {
         return new CityEntity(1, name, 2000);
     }
+
+    public static CityEntity create(Integer id) {
+        return new CityEntity(id, "Cracow", 2000);
+    }
 }
