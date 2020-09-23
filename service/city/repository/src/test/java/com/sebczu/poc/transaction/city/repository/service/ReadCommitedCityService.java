@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -16,6 +18,7 @@ public class ReadCommitedCityService {
 
     private static final int POPULATION_TO_ADD = 100;
     private final CityRepository repository;
+    private final EntityManager entityManager;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public CityEntity wait_readAndAddPopulation(int id) {
@@ -46,6 +49,20 @@ public class ReadCommitedCityService {
 
         sleep();
 
+        city = repository.getOne(id);
+        log.info("readCommited population: " + city.getPopulation());
+        city.setPopulation(city.getPopulation() + POPULATION_TO_ADD);
+        return repository.save(city);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public CityEntity readPopulation_wait_cleanCacheAndReadPopulation(int id) {
+        CityEntity city = repository.getOne(id);
+        log.info("readCommited population: " + city.getPopulation());
+
+        sleep();
+
+        entityManager.clear();
         city = repository.getOne(id);
         log.info("readCommited population: " + city.getPopulation());
         city.setPopulation(city.getPopulation() + POPULATION_TO_ADD);
