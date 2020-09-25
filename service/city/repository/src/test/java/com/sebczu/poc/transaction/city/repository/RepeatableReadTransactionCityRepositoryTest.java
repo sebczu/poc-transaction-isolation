@@ -107,4 +107,34 @@ class RepeatableReadTransactionCityRepositoryTest extends CityRepositoryTest {
         assertThat(repository.findAll())
                 .hasSize(2);
     }
+
+    // T1 ---(startTransaction)---(readCities[1])-----------------------------------------------(updateCities[1])---(endTransaction)
+    // T2 ---(startTransaction)---------------------(addCity)---(saveInDB[2] | endTransaction)
+    @Test
+    void readCitiesT1_addCityT2_updateCitiesT1() {
+        repository.save(CityFactory.create());
+
+        int size = service.readCities_wait_updateCities();
+
+        assertThat(size).isEqualTo(1);
+        assertThat(repository.findAll())
+                .hasSize(2)
+                .extracting(CityEntity::getPopulation)
+                .containsExactlyInAnyOrder(0, 100);
+    }
+
+    // T1 ---(startTransaction)---(readCities[1])--------------------------------------------------(updateCities[1])---(rollbackTransaction)
+    // T2 ---(startTransaction)---------------------(removeCity)---(saveInDB[0] | endTransaction)
+    @Test
+    void readCitiesT1_removeCityT2_updateCitiesT1() {
+        repository.save(CityFactory.create());
+
+        Throwable thrown = catchThrowable(() -> service.readCities_remove_updateCities());
+
+        assertThat(thrown)
+                .isInstanceOf(CannotAcquireLockException.class);
+
+        assertThat(repository.findAll())
+                .hasSize(0);
+    }
 }

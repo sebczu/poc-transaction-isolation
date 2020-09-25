@@ -16,6 +16,6 @@ public class CityFactory {
     }
 
     public static CityEntity create(Integer id) {
-        return new CityEntity(id, "Cracow", 0);
+        return new CityEntity(id, "Cracow", 100);
     }
 }

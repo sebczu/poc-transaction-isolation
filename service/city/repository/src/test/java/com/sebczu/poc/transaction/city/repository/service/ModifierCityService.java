@@ -28,4 +28,9 @@ public class ModifierCityService {
         repository.save(CityFactory.create(2));
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void removeCities() {
+        repository.deleteAll();
+    }
+
 }

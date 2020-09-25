@@ -26,7 +26,7 @@ public class RepeatableReadCityService {
         modifierService.addPopulation(id);
 
         CityEntity city = repository.getOne(id);
-        log.info("readCommited population: " + city.getPopulation());
+        log.info("repeatableRead population: " + city.getPopulation());
         city.setPopulation(city.getPopulation() + POPULATION_TO_ADD);
         return repository.save(city);
     }
@@ -35,7 +35,7 @@ public class RepeatableReadCityService {
     public CityEntity readPopulation_wait_addPopulation(int id) {
         CityEntity city = repository.getOne(id);
         Integer population = city.getPopulation();
-        log.info("readCommited population: " + population);
+        log.info("repeatableRead population: " + population);
 
         modifierService.addPopulation(id);
 
@@ -46,12 +46,12 @@ public class RepeatableReadCityService {
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public CityEntity readPopulation_wait_readAndAddPopulation(int id) {
         CityEntity city = repository.getOne(id);
-        log.info("readCommited population: " + city.getPopulation());
+        log.info("repeatableRead population: " + city.getPopulation());
 
         modifierService.addPopulation(id);
 
         city = repository.getOne(id);
-        log.info("readCommited population: " + city.getPopulation());
+        log.info("repeatableRead population: " + city.getPopulation());
         city.setPopulation(city.getPopulation() + POPULATION_TO_ADD);
         return repository.save(city);
     }
@@ -59,13 +59,13 @@ public class RepeatableReadCityService {
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public CityEntity readPopulation_wait_cleanCacheAndReadPopulation(int id) {
         CityEntity city = repository.getOne(id);
-        log.info("readCommited population: " + city.getPopulation());
+        log.info("repeatableRead population: " + city.getPopulation());
 
         modifierService.addPopulation(id);
 
         entityManager.clear();
         city = repository.getOne(id);
-        log.info("readCommited population: " + city.getPopulation());
+        log.info("repeatableRead population: " + city.getPopulation());
         city.setPopulation(city.getPopulation() + POPULATION_TO_ADD);
         return repository.save(city);
     }
@@ -75,20 +75,43 @@ public class RepeatableReadCityService {
         modifierService.addCity();
 
         int size = repository.findAllByName("Cracow").size();
-        log.info("readCommited citites: " + size);
+        log.info("repeatableRead citites: " + size);
         return size;
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public Integer readCities_wait_readCities() {
         int size = repository.findAllByName("Cracow").size();
-        log.info("readCommited citites: " + size);
+        log.info("repeatableRead citites: " + size);
 
         modifierService.addCity();
 
         size = repository.findAllByName("Cracow").size();
-        log.info("readCommited citites: " + size);
+        log.info("repeatableRead citites: " + size);
         return size;
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public Integer readCities_wait_updateCities() {
+        int size = repository.findAllByName("Cracow").size();
+        log.info("repeatableRead citites: " + size);
+
+        modifierService.addCity();
+
+        size = repository.resetPopulation("Cracow");
+        log.info("repeatableRead citites: " + size);
+        return size;
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public Integer readCities_remove_updateCities() {
+        int size = repository.findAllByName("Cracow").size();
+        log.info("repeatableRead citites: " + size);
+
+        modifierService.removeCities();
+
+        size = repository.resetPopulation("Cracow");
+        log.info("repeatableRead citites: " + size);
+        return size;
+    }
 }
