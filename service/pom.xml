@@ -21,7 +21,6 @@
     <!--REPOSITORY-->
     <module>city/repository</module>
 
-    <module>application</module>
   </modules>
 
 </project>

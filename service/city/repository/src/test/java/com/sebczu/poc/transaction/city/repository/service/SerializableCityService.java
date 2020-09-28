@@ -75,43 +75,43 @@ public class SerializableCityService {
         modifierService.addCity();
 
         int size = repository.findAllByName("Cracow").size();
-        log.info("serializable citites: " + size);
+        log.info("serializable cities: " + size);
         return size;
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public Integer readCities_wait_readCities() {
         int size = repository.findAllByName("Cracow").size();
-        log.info("serializable citites: " + size);
+        log.info("serializable cities: " + size);
 
         modifierService.addCity();
 
         size = repository.findAllByName("Cracow").size();
-        log.info("serializable citites: " + size);
+        log.info("serializable cities: " + size);
         return size;
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public Integer readCities_wait_updateCities() {
         int size = repository.findAllByName("Cracow").size();
-        log.info("serializable citites: " + size);
+        log.info("serializable cities: " + size);
 
         modifierService.addCity();
 
         size = repository.resetPopulation("Cracow");
-        log.info("serializable citites: " + size);
+        log.info("serializable cities: " + size);
         return size;
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public Integer readCities_remove_updateCities() {
         int size = repository.findAllByName("Cracow").size();
-        log.info("repeatableRead citites: " + size);
+        log.info("serializable cities: " + size);
 
         modifierService.removeCities();
 
         size = repository.resetPopulation("Cracow");
-        log.info("repeatableRead citites: " + size);
+        log.info("serializable cities: " + size);
         return size;
     }
 }
