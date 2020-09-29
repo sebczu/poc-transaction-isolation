@@ -6,7 +6,7 @@
   <packaging>pom</packaging>
 
   <parent>
-    <groupId>com.sebczu.poc.transaction</groupId>
+    <groupId>com.sebczu.poc.transaction.isolation</groupId>
     <artifactId>parent</artifactId>
     <version>${revision}${changelist}${sha1}</version>
     <relativePath>../parent</relativePath>

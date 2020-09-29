@@ -6,7 +6,7 @@
   <packaging>pom</packaging>
 
   <parent>
-    <groupId>com.sebczu.poc.transaction</groupId>
+    <groupId>com.sebczu.poc.transaction.isolation</groupId>
     <artifactId>service</artifactId>
     <version>${revision}${changelist}${sha1}</version>
   </parent>
@@ -14,13 +14,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.sebczu.poc.transaction</groupId>
-        <artifactId>application</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <!--CITY-->
-      <dependency>
-        <groupId>com.sebczu.poc.transaction</groupId>
+        <groupId>com.sebczu.poc.transaction.isolation</groupId>
         <artifactId>city-repository</artifactId>
         <version>${project.version}</version>
       </dependency>

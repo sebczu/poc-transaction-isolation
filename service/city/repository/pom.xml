@@ -5,7 +5,7 @@
   <artifactId>city-repository</artifactId>
 
   <parent>
-    <groupId>com.sebczu.poc.transaction</groupId>
+    <groupId>com.sebczu.poc.transaction.isolation</groupId>
     <artifactId>city</artifactId>
     <version>${revision}${changelist}${sha1}</version>
   </parent>

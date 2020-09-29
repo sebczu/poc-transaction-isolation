@@ -6,8 +6,8 @@
   <packaging>pom</packaging>
 
   <parent>
-    <groupId>com.sebczu.poc.transaction</groupId>
-    <artifactId>poc-transaction</artifactId>
+    <groupId>com.sebczu.poc.transaction.isolation</groupId>
+    <artifactId>poc-transaction-isolation</artifactId>
     <version>${revision}${changelist}${sha1}</version>
   </parent>
 
