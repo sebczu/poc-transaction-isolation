@@ -10,11 +10,13 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 @Slf4j
 @SpringBootTest
-@ContextConfiguration(initializers = {CityRepositoryTest.ContextInitializer.class})
+@ContextConfiguration(initializers = {CityRepositoryTest.PostgresContextInitializer.class})
+//@ContextConfiguration(initializers = {CityRepositoryTest.MysqlContextInitializer.class})
 @EnableJpaRepositories(basePackages = "com.sebczu")
 abstract class CityRepositoryTest {
 
@@ -27,7 +29,7 @@ abstract class CityRepositoryTest {
         repository.deleteAll();
     }
 
-    static class ContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+    static class PostgresContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         public void initialize(ConfigurableApplicationContext applicationContext) {
             log.info("context init");
             PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:13")
@@ -45,4 +47,21 @@ abstract class CityRepositoryTest {
         }
     }
 
+    static class MysqlContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(ConfigurableApplicationContext applicationContext) {
+            log.info("context init");
+            MySQLContainer  mysqlContainer = new MySQLContainer("mysql:5.7.31")
+                    .withDatabaseName("test")
+                    .withUsername("admin")
+                    .withPassword("test");
+
+            mysqlContainer.start();
+
+            TestPropertyValues.of(
+                    "spring.datasource.url=" + mysqlContainer.getJdbcUrl(),
+                    "spring.datasource.username=" + mysqlContainer.getUsername(),
+                    "spring.datasource.password=" + mysqlContainer.getPassword()
+            ).applyTo(applicationContext);
+        }
+    }
 }

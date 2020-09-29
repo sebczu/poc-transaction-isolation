@@ -34,9 +34,10 @@
       </dependency>
       <dependency>
         <groupId>org.testcontainers</groupId>
-        <artifactId>postgresql</artifactId>
+        <artifactId>testcontainers-bom</artifactId>
         <version>${testcontainers.version}</version>
-        <scope>test</scope>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
