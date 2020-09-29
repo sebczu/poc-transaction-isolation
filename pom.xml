@@ -26,4 +26,12 @@
     <module>service</module>
   </modules>
 
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub sebczu Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/sebczu/maven</url>
+    </repository>
+  </distributionManagement>
+
 </project>

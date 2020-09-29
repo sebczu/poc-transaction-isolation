@@ -8,6 +8,7 @@ CREATE TABLE city (id SERIAL PRIMARY KEY, name VARCHAR(255), population INTEGER)
 
 #### 1. READ_COMMITTED
 **Specification:**
+
 **- can read entity commited in different transaction**
 
 - transaction T1 can read commited entity from different concurrent transaction
@@ -53,7 +54,9 @@ T2 ---(startTransaction)---------------------(removeCity)---(saveInDB[0] | endTr
 
 #### 2. REPEATABLE_READ
 **Specification:**
+
 **- rollback when different transaction change entity**
+
 **- in single transaction we always read this same entities**
 ```bash
 T1 ---(startTransaction)--------------------------------------------------------(readPopulation[1] | addPopulation)---(saveInDB[2] | endTransaction)
