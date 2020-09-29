@@ -1,4 +1,4 @@
-### **POC-TRANSACTION**
+### **POC-TRANSACTION-ISOLATION**
 **spring boot jpa + postgresql**
 
 #### Database schema:
