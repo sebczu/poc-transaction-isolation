@@ -7,24 +7,65 @@
   <version>${revision}${changelist}${sha1}</version>
   <packaging>pom</packaging>
 
-  <parent>
-    <groupId>com.sebczu</groupId>
-    <artifactId>versioning</artifactId>
-    <version>1.0.2</version>
-  </parent>
-
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
 
     <revision>0.0.1</revision>
     <changelist/>
     <sha1>-SNAPSHOT</sha1>
+
+    <flatten.maven.plugin.version>1.1.0</flatten.maven.plugin.version>
   </properties>
 
   <modules>
     <module>service</module>
   </modules>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>flatten-maven-plugin</artifactId>
+          <version>${flatten.maven.plugin.version}</version>
+          <executions>
+            <execution>
+              <id>flatten-process</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>flatten</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>flatten-clean</id>
+              <phase>clean</phase>
+              <goals>
+                <goal>clean</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <configuration>
+          <flattenMode>resolveCiFriendliesOnly</flattenMode>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+      </plugin>
+    </plugins>
+  </build>
 
   <distributionManagement>
     <repository>
