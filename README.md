@@ -1,6 +1,11 @@
 ### **POC-TRANSACTION-ISOLATION**
 **spring boot jpa + postgresql**
 
+#### 1. Build service
+```bash
+mvn clean install
+```
+
 #### Database schema:
 ```bash
 CREATE TABLE city (id SERIAL PRIMARY KEY, name VARCHAR(255), population INTEGER);
@@ -98,7 +103,7 @@ T1 ---(startTransaction)---(readCities[1])--------------------------------------
 T2 ---(startTransaction)---------------------(removeCity)---(saveInDB[0] | endTransaction)
 ```
 
-#### 2. SERIALIZABLE
+#### 3. SERIALIZABLE
 **Specification: (this same as REPEATABLE_READ)**
 **- rollback when different transaction change entity**
 **- in single transaction we always read this same entities**
