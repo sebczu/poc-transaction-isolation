@@ -12,8 +12,8 @@
   </parent>
 
   <properties>
-    <spring.boot.dependencies.version>2.3.5.RELEASE</spring.boot.dependencies.version>
-    <testcontainers.version>1.15.0</testcontainers.version>
+    <spring.boot.dependencies.version>2.6.2</spring.boot.dependencies.version>
+    <testcontainers.version>1.16.2</testcontainers.version>
   </properties>
 
   <dependencyManagement>
